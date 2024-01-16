@@ -11,6 +11,7 @@ namespace Client.Models
         private static Random _random = new Random();
         public int OrderNumber { get; private set; }
         public List<FoodItem> FoodItems { get; private set; }
+        public bool IsCompleted { get; private set; }
 
         public Order()
         {
@@ -22,6 +23,19 @@ namespace Client.Models
         {
             FoodItems.Add(foodItem);
         }
+
+
+
+        public void MarkAsCompleted()
+        {
+            IsCompleted = true;
+        }
+
+        //public bool AreAllItemsCooked()
+        //{
+        //    return FoodItems.All(item => item.IsCooked);
+        //}
+
     }
 
 }
