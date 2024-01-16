@@ -64,7 +64,7 @@ namespace Client.Models
                     var order = _orderQueue.Dequeue();
                     foreach (var foodItem in order.FoodItems)
                     {
-                        spot.AssignOrder(foodItem);
+                        spot.CookFoodItem(foodItem);
                         break;
                     }
                 }

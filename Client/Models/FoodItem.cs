@@ -11,6 +11,7 @@ namespace Client.Models
         public string Name { get; set; }
         public int PreparationTime { get; set; } 
         public event Action OnCooked;
+        public bool IsCooked { get; set; }
 
         public FoodItem(string name, int preparationTime)
         {

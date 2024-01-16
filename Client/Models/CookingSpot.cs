@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Client.Models
+﻿namespace Client.Models
 {
     public class CookingSpot
     {
@@ -13,7 +7,7 @@ namespace Client.Models
         public DateTime OrderStartTime { get; private set; }
         public event Action OnCookingSpotFreed;
 
-        public void AssignOrder(FoodItem order)
+        public void CookFoodItem(FoodItem order)
         {
             CurrentOrder = order;
             OrderStartTime = DateTime.Now;

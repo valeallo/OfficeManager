@@ -40,7 +40,7 @@ namespace Client
                             var availableSpot = selectedRestaurant.CookingSpots.FirstOrDefault(spot => !spot.IsOccupied);
                             if (availableSpot != null)
                             {
-                                availableSpot.AssignOrder(foodItem);
+                                availableSpot.CookFoodItem(foodItem);
                                 Console.WriteLine($"Order for {foodItem.Name} is being processed...");
                                 // Add more logic for handling the cooking time and order completion
                             }
