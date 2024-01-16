@@ -7,12 +7,15 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            Display display = new Display();
+ 
             var sampleRestaurants = InitializeSampleRestaurants();
             var factory = new RestaurantFactory(sampleRestaurants);
 
-         
-             
+            Display display = new Display();
+            display.PrintNotification();
+
+
+
             var selectedRestaurant = factory.GetRestaurant();
             display.menuDisplay(selectedRestaurant);
 
@@ -26,9 +29,31 @@ namespace Client
         {
             private Restaurant _selectedRestaurant;
             private Menu _selectedMenu;
+            public int notification = 2;
            
             public Display() { }
 
+
+            public void ClearConsole()
+            {
+                int currentLine = Console.CursorTop;
+                int totalLines = Console.WindowHeight;
+                Console.SetCursorPosition(0, notification);
+
+
+                for (int i = 2; i < totalLines; i++)
+                {
+                    Console.Write(new string(' ', Console.WindowWidth));
+                }
+
+                Console.SetCursorPosition(0, currentLine);
+            }
+
+            public void PrintNotification ()
+            {
+                Console.WriteLine(" XXXXX");
+                Console.WriteLine("                               ");
+            }
             public void mainMenu()
             {
                 Console.WriteLine("1. Translation Service");
@@ -68,10 +93,15 @@ namespace Client
                         order.AddFoodItem(foodItem);
                         Console.WriteLine($"{foodItem.Name} x {selectedItems[foodItem]}");
                     }
-                    else if (char.ToLower(keyInfo.KeyChar) == 's')
+                    else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
                     {
                         order.SendOrder();
                         Console.WriteLine("Order sent.");
+                        ClearConsole();
+                    }
+                    else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() == 0)
+                    {
+                        Console.WriteLine("the basket is empty please select an item");
                     }
                     else
                     {
@@ -79,7 +109,7 @@ namespace Client
                     }
                 }
 
-                // Display the menu for the selected type
+                
 
 
             }

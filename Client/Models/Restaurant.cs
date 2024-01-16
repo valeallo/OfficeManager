@@ -50,7 +50,6 @@ namespace Client.Models
         {
             _allOrders.Add(order);
             _orderQueue.Enqueue(order);
-            Console.WriteLine("order is added");
             ProcessOrders();
         }
 
@@ -77,7 +76,7 @@ namespace Client.Models
         public  void ProcessOrders()
         
         {
-            Console.WriteLine("order is being processed");
+
           if (_orderQueue.Count == 0)
             {
                 return;
@@ -87,7 +86,7 @@ namespace Client.Models
           if (order.AreAllItemsCooked() == true)
             {
                 order.MarkAsCompleted();
-                _orderQueue.Dequeue();
+                if (_orderQueue.Count >= 1 ) { _orderQueue.Dequeue(); }
                 return;
             }
 
