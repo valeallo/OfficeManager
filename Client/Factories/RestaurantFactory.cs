@@ -18,8 +18,6 @@ namespace Client.Factories
 
         public Restaurant GetRestaurant(string menuType)
         {
-            // Select a restaurant that has a menu matching the requested menu type
-            // and has the highest number of available cooking spots
             return _restaurants
                 .Where(r => r.Menus.Any(m => m.Name.Equals(menuType, StringComparison.OrdinalIgnoreCase)))
                 .OrderByDescending(r => r.AvailableSpots())
