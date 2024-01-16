@@ -11,12 +11,24 @@
         {
             CurrentOrder = order;
             OrderStartTime = DateTime.Now;
-            Task.Delay(TimeSpan.FromMinutes(order.PreparationTime)).ContinueWith(_ =>
+            //Task.Delay(TimeSpan.FromMinutes(order.PreparationTime)).ContinueWith(_ =>
+            //{
+            //    CurrentOrder = null; 
+            //    order.IsCooked = true;
+            //    OnCookingSpotFreed?.Invoke(); 
+            //});
+
+            TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
+
+            Task.Delay(shorterDelay).ContinueWith(_ =>
             {
-                CurrentOrder = null; 
+                CurrentOrder = null;
                 order.IsCooked = true;
-                OnCookingSpotFreed?.Invoke(); 
+                order.MarkAsCooked();
+                OnCookingSpotFreed?.Invoke();
             });
+
+
         }
 
         public bool CheckIfOrderIsCompleted()

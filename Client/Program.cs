@@ -7,24 +7,34 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            
+            Display display = new Display();
             var sampleRestaurants = InitializeSampleRestaurants();
-
             var factory = new RestaurantFactory(sampleRestaurants);
 
-            while (true)
-            {
+         
              
-                string menuType = Console.ReadLine();
+            var selectedRestaurant = factory.GetRestaurant();
+            display.menuDisplay(selectedRestaurant);
 
-                var selectedRestaurant = factory.GetRestaurant();
+
+        }
+
+
+
+
+        public class Display
+        {
+            public Display() { }
+            public void menuDisplay(Restaurant selectedRestaurant)
+            {
+                while(true) {
                 if (selectedRestaurant != null)
                 {
                     // Display the menu for the selected type
                     var menu = selectedRestaurant.getCurrentMenu();
                     if (menu != null)
                     {
-                        Console.WriteLine($"Menu for {menuType}:");
+                        Console.WriteLine($"Menu for {selectedRestaurant.Name}:");
                         for (int i = 0; i < menu.FoodItems.Count; i++)
                         {
                             Console.WriteLine($"{i + 1}. {menu.FoodItems[i].Name} - Preparation time: {menu.FoodItems[i].PreparationTime} minutes");
@@ -41,10 +51,10 @@ namespace Client
                         {
                             var foodItem = menu.FoodItems[foodItemIndex - 1];
                             order.AddFoodItem(foodItem);
-                            // Process the order if a cooking spot is available
-                          
-                           
-                        } else if (string.IsNullOrWhiteSpace(Console.ReadLine()))
+                            order.SendOrder();
+
+                        }
+                        else if (Console.ReadLine() == "send")
                         {
                             Console.WriteLine("No food item selected. Please select a valid food item.");
                         }
@@ -53,20 +63,12 @@ namespace Client
                             Console.WriteLine("Invalid food item selection.");
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine($"No menu available for {menuType} in this restaurant.");
-                    }
+
                 }
-                else
-                {
-                    Console.WriteLine("No restaurant available for the selected menu type.");
+
                 }
             }
-            // Additional logic for order completion and spot availability
         }
-
-
 
         public static List<Restaurant> InitializeSampleRestaurants()
         {

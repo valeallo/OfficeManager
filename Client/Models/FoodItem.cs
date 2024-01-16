@@ -23,6 +23,7 @@ namespace Client.Models
 
         public void MarkAsCooked()
         {
+            IsCooked = true;
             OnCooked?.Invoke();
         }
     }

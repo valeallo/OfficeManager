@@ -50,7 +50,7 @@ namespace Client.Models
         {
             _allOrders.Add(order);
             _orderQueue.Enqueue(order);
-
+            Console.WriteLine("order is added");
             ProcessOrders();
         }
 
@@ -74,8 +74,9 @@ namespace Client.Models
             return Menus.FirstOrDefault(m => m.Name.Equals(menuType, StringComparison.OrdinalIgnoreCase));
         }
 
-        public void ProcessOrders()
+        public  void ProcessOrders()
         {
+            Console.WriteLine("order is being processed");
           if (_orderQueue.Count == 0)
             {
                 return;
@@ -90,15 +91,18 @@ namespace Client.Models
             }
 
 
-
-            foreach (var spot in CookingSpots)
+            foreach (var item in order.FoodItems)
             {
-                if (!spot.IsOccupied)
+                foreach (var spot in CookingSpots)
                 {
-                    var foodItem = order.FoodItems.FirstOrDefault(item => !item.IsCooked);
-                    if (foodItem != null)
+                    if (!spot.IsOccupied)
                     {
-                        spot.CookFoodItem(foodItem); 
+                        var foodItem = order.FoodItems.FirstOrDefault(item => !item.IsCooked);
+                        if (foodItem != null)
+                        {
+                            spot.CookFoodItem(foodItem);
+                            break;
+                        }
                     }
                 }
             }
