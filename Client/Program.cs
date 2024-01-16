@@ -24,49 +24,68 @@ namespace Client
 
         public class Display
         {
+            private Restaurant _selectedRestaurant;
+            private Menu _selectedMenu;
+           
             public Display() { }
             public void menuDisplay(Restaurant selectedRestaurant)
             {
-                while(true) {
-                if (selectedRestaurant != null)
+                _selectedRestaurant = selectedRestaurant;
+                _selectedMenu = selectedRestaurant.getCurrentMenu();
+                Order order = new Order(selectedRestaurant);
+                order.OnOrderCompleted += (completedOrder) =>
                 {
-                    // Display the menu for the selected type
-                    var menu = selectedRestaurant.getCurrentMenu();
-                    if (menu != null)
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
+                };
+
+                PrintMenu();
+                PrintOrder(order);
+
+                while (true)
+                {
+                    if (int.TryParse(Console.ReadLine(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= _selectedMenu.FoodItems.Count)
                     {
-                        Console.WriteLine($"Menu for {selectedRestaurant.Name}:");
-                        for (int i = 0; i < menu.FoodItems.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1}. {menu.FoodItems[i].Name} - Preparation time: {menu.FoodItems[i].PreparationTime} minutes");
-                        }
-                        Order order = new Order(selectedRestaurant);
-                        order.OnOrderCompleted += (completedOrder) =>
-                        {
-                            Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
-                        };
-                        // Let the user choose a food item
-                        Console.WriteLine("Select a food item number:");
+                        var foodItem = _selectedMenu.FoodItems[foodItemIndex - 1];
+                        order.AddFoodItem(foodItem);
+                    
 
-                        if (int.TryParse(Console.ReadLine(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= menu.FoodItems.Count)
-                        {
-                            var foodItem = menu.FoodItems[foodItemIndex - 1];
-                            order.AddFoodItem(foodItem);
-                            order.SendOrder();
+                    }
+                    else if (Console.ReadLine() == "send")
+                    {
+                        order.SendOrder();
+                        Console.WriteLine("No food item selected. Please select a valid food item.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid food item selection.");
+                    }
+                }
 
-                        }
-                        else if (Console.ReadLine() == "send")
-                        {
-                            Console.WriteLine("No food item selected. Please select a valid food item.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid food item selection.");
-                        }
+                // Display the menu for the selected type
+
+
+            }
+
+
+            public void PrintMenu()
+            {
+                if (_selectedMenu != null)
+                {
+                    Console.WriteLine($"Menu for {_selectedRestaurant.Name}:");
+                    for (int i = 0; i < _selectedMenu.FoodItems.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {_selectedMenu.FoodItems[i].Name} - Preparation time: {_selectedMenu.FoodItems[i].PreparationTime} minutes");
                     }
 
-                }
+                    // Let the user choose a food item
+                    Console.WriteLine("Select a food item number:");
 
                 }
+            }
+
+            public void PrintOrder(Order order)
+            {
+                Console.WriteLine($"order n: {order.OrderNumber}");
             }
         }
 
