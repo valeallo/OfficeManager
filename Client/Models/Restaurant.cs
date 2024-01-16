@@ -75,6 +75,7 @@ namespace Client.Models
         }
 
         public  void ProcessOrders()
+        
         {
             Console.WriteLine("order is being processed");
           if (_orderQueue.Count == 0)
@@ -83,7 +84,7 @@ namespace Client.Models
             }
           var order = _orderQueue.Peek();
 
-          if (order.AreAllItemsCooked() || order.FoodItems.Count() == 0)
+          if (order.AreAllItemsCooked() == true)
             {
                 order.MarkAsCompleted();
                 _orderQueue.Dequeue();
@@ -100,6 +101,7 @@ namespace Client.Models
                         var foodItem = order.FoodItems.FirstOrDefault(item => !item.IsCooked);
                         if (foodItem != null)
                         {
+                            
                             spot.CookFoodItem(foodItem);
                             break;
                         }

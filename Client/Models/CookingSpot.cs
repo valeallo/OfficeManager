@@ -18,12 +18,11 @@
             //    OnCookingSpotFreed?.Invoke(); 
             //});
 
-            TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
+            TimeSpan shorterDelay = TimeSpan.FromSeconds(10);
 
             Task.Delay(shorterDelay).ContinueWith(_ =>
             {
                 CurrentOrder = null;
-                order.IsCooked = true;
                 order.MarkAsCooked();
                 OnCookingSpotFreed?.Invoke();
             });

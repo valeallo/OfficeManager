@@ -28,11 +28,18 @@ namespace Client
             private Menu _selectedMenu;
            
             public Display() { }
+
+            public void mainMenu()
+            {
+                Console.WriteLine("1. Translation Service");
+                Console.WriteLine("2. Food Delivery");
+            }
             public void menuDisplay(Restaurant selectedRestaurant)
             {
                 _selectedRestaurant = selectedRestaurant;
                 _selectedMenu = selectedRestaurant.getCurrentMenu();
                 Order order = new Order(selectedRestaurant);
+                var selectedItems = new Dictionary<FoodItem, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
                     Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
@@ -41,23 +48,34 @@ namespace Client
                 PrintMenu();
                 PrintOrder(order);
 
+                Console.WriteLine("Select a food item number:");
+
                 while (true)
                 {
-                    if (int.TryParse(Console.ReadLine(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= _selectedMenu.FoodItems.Count)
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+
+                    if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= _selectedMenu.FoodItems.Count)
                     {
                         var foodItem = _selectedMenu.FoodItems[foodItemIndex - 1];
+                        if (selectedItems.ContainsKey(foodItem))
+                        {
+                            selectedItems[foodItem]++;
+                        }
+                        else
+                        {
+                            selectedItems[foodItem] = 1;
+                        }
                         order.AddFoodItem(foodItem);
-                    
-
+                        Console.WriteLine($"{foodItem.Name} x {selectedItems[foodItem]}");
                     }
-                    else if (Console.ReadLine() == "send")
+                    else if (char.ToLower(keyInfo.KeyChar) == 's')
                     {
                         order.SendOrder();
-                        Console.WriteLine("No food item selected. Please select a valid food item.");
+                        Console.WriteLine("Order sent.");
                     }
                     else
                     {
-                        Console.WriteLine("Invalid food item selection.");
+                        Console.WriteLine("Invalid input. Enter a valid food item number or 's' to place the order.");
                     }
                 }
 
@@ -78,7 +96,7 @@ namespace Client
                     }
 
                     // Let the user choose a food item
-                    Console.WriteLine("Select a food item number:");
+               
 
                 }
             }
