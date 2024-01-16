@@ -31,10 +31,10 @@ namespace Client.Models
             IsCompleted = true;
         }
 
-        //public bool AreAllItemsCooked()
-        //{
-        //    return FoodItems.All(item => item.IsCooked);
-        //}
+        public bool AreAllItemsCooked()
+        {
+            return FoodItems.All(item => item.IsCooked);
+        }
 
     }
 

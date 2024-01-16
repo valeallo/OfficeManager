@@ -14,6 +14,7 @@
             Task.Delay(TimeSpan.FromMinutes(order.PreparationTime)).ContinueWith(_ =>
             {
                 CurrentOrder = null; 
+                order.IsCooked = true;
                 OnCookingSpotFreed?.Invoke(); 
             });
         }

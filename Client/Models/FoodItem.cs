@@ -17,6 +17,7 @@ namespace Client.Models
         {
             Name = name;
             PreparationTime = preparationTime;
+            IsCooked = false;
         }
 
 
