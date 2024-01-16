@@ -16,14 +16,32 @@ namespace Client.Factories
             _restaurants = restaurants;
         }
 
-        public Restaurant GetRestaurant(string menuType)
+        public Restaurant GetRestaurant()
         {
-            return _restaurants
+            int currentHour = DateTime.Now.Hour;
+            string menuType;
+
+            if (currentHour >= 6 && currentHour < 12)
+            {
+                menuType = "breakfast";
+            }
+            else if (currentHour >= 12 && currentHour < 18)
+            {
+                menuType = "lunch";
+            }
+            else
+            {
+                menuType = "dinner";
+            }
+
+            var restaurant = _restaurants
                 .Where(r => r.Menus.Any(m => m.Name.Equals(menuType, StringComparison.OrdinalIgnoreCase)))
                 .OrderByDescending(r => r.AvailableSpots())
                 .FirstOrDefault();
+
+            return restaurant;
         }
 
-        
+
     }
 }

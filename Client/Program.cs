@@ -14,14 +14,14 @@ namespace Client
 
             while (true)
             {
-                Console.WriteLine("Enter menu type (breakfast, lunch, dinner): ");
+             
                 string menuType = Console.ReadLine();
 
-                var selectedRestaurant = factory.GetRestaurant(menuType);
+                var selectedRestaurant = factory.GetRestaurant();
                 if (selectedRestaurant != null)
                 {
                     // Display the menu for the selected type
-                    var menu = selectedRestaurant.Menus.FirstOrDefault(m => m.Name.Equals(menuType, StringComparison.OrdinalIgnoreCase));
+                    var menu = selectedRestaurant.getCurrentMenu();
                     if (menu != null)
                     {
                         Console.WriteLine($"Menu for {menuType}:");
@@ -29,25 +29,24 @@ namespace Client
                         {
                             Console.WriteLine($"{i + 1}. {menu.FoodItems[i].Name} - Preparation time: {menu.FoodItems[i].PreparationTime} minutes");
                         }
-
+                        Order order = new Order(selectedRestaurant);
+                        order.OnOrderCompleted += (completedOrder) =>
+                        {
+                            Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
+                        };
                         // Let the user choose a food item
                         Console.WriteLine("Select a food item number:");
+
                         if (int.TryParse(Console.ReadLine(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= menu.FoodItems.Count)
                         {
                             var foodItem = menu.FoodItems[foodItemIndex - 1];
-
+                            order.AddFoodItem(foodItem);
                             // Process the order if a cooking spot is available
-                            var availableSpot = selectedRestaurant.CookingSpots.FirstOrDefault(spot => !spot.IsOccupied);
-                            if (availableSpot != null)
-                            {
-                                availableSpot.CookFoodItem(foodItem);
-                                Console.WriteLine($"Order for {foodItem.Name} is being processed...");
-                                // Add more logic for handling the cooking time and order completion
-                            }
-                            else
-                            {
-                                Console.WriteLine("No available cooking spots in the selected restaurant.");
-                            }
+                          
+                           
+                        } else if (string.IsNullOrWhiteSpace(Console.ReadLine()))
+                        {
+                            Console.WriteLine("No food item selected. Please select a valid food item.");
                         }
                         else
                         {

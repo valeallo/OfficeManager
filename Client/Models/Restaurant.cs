@@ -54,6 +54,25 @@ namespace Client.Models
             ProcessOrders();
         }
 
+        public Menu getCurrentMenu ()
+        {
+            int currentHour = DateTime.Now.Hour;
+            string menuType;
+
+            if (currentHour >= 6 && currentHour < 12)
+            {
+                menuType = "breakfast";
+            }
+            else if (currentHour >= 12 && currentHour < 18)
+            {
+                menuType = "lunch";
+            }
+            else
+            {
+                menuType = "dinner";
+            }
+            return Menus.FirstOrDefault(m => m.Name.Equals(menuType, StringComparison.OrdinalIgnoreCase));
+        }
 
         public void ProcessOrders()
         {
