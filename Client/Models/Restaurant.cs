@@ -57,26 +57,31 @@ namespace Client.Models
 
         public void ProcessOrders()
         {
-            var order = _orderQueue.Dequeue();
-
-          if  (order.AreAllItemsCooked())
+          if (_orderQueue.Count == 0)
+            {
                 return;
+            }
+          var order = _orderQueue.Peek();
+
+          if (order.AreAllItemsCooked() || order.FoodItems.Count() == 0)
+            {
+                order.MarkAsCompleted();
+                _orderQueue.Dequeue();
+                return;
+            }
+
 
 
             foreach (var spot in CookingSpots)
             {
-                if (spot.IsOccupied && _orderQueue.Count <= 0)
+                if (!spot.IsOccupied)
                 {
-                    break;
+                    var foodItem = order.FoodItems.FirstOrDefault(item => !item.IsCooked);
+                    if (foodItem != null)
+                    {
+                        spot.CookFoodItem(foodItem); 
+                    }
                 }
-                foreach (var foodItem in order.FoodItems)
-                {
-                    if (!foodItem.IsCooked) {
-                    spot.CookFoodItem(foodItem);
-                    break;
-                    } 
-                }
-               
             }
         }
     }
