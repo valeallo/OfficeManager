@@ -9,9 +9,6 @@ namespace Client
         static void Main(string[] args)
         {
  
-           
-            
-
             Display display = new Display();
             display.PrintNotification(" ");
             display.mainMenu();
@@ -65,6 +62,7 @@ namespace Client
             }
             public void mainMenu()
             {
+                ClearConsole();
                 bool isRunning = true;
 
         
@@ -83,14 +81,12 @@ namespace Client
                     switch (input)
                     {
                         case '1':
-                            Console.WriteLine("service not available yet");
+                            translationDisplay();
                             break;
-                        case '2':
-                      
-                            
+                        case '2':                       
                             var factory = new RestaurantFactory();
                             var selectedRestaurant = factory.GetRestaurant();
-                            ClearConsole();
+                   
                             deliveryDisplay(selectedRestaurant);
                             break;
                         case 'Q':
@@ -107,6 +103,7 @@ namespace Client
             }
             public void deliveryDisplay(Restaurant selectedRestaurant)
             {
+                ClearConsole();
                 _selectedRestaurant = selectedRestaurant;
                 _selectedMenu = selectedRestaurant.getCurrentMenu();
                 bool isRunning = true;
@@ -148,12 +145,15 @@ namespace Client
                         order.SendOrder();
                         Console.WriteLine("Order sent.");
                         isRunning = false;
-                        ClearConsole();
                         mainMenu();
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() == 0)
                     {
                         Console.WriteLine("the basket is empty please select an item");
+                    }
+                    else if (char.ToLower(keyInfo.KeyChar) == 'b')
+                    {
+                        mainMenu();
                     }
                     else
                     {
@@ -168,7 +168,31 @@ namespace Client
 
             public void translationDisplay()
             {
+                ClearConsole();
+                bool isRunning = true;
+                Console.WriteLine("service not available yet");
 
+                var input = char.ToUpper(Console.ReadKey().KeyChar);
+                while (isRunning)
+                {
+                    switch (input)
+                    {
+                        case '1':
+
+                            break;
+                        case 'B':
+                            mainMenu();
+                            break;
+                        case 'Q':
+                            isRunning = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid input. Please try again.");
+                            Console.ReadKey();
+                            break;
+                    }
+
+                }
             }
             public void PrintMenu()
             {
