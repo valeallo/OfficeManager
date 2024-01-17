@@ -1,5 +1,6 @@
 ﻿using Client.Factories;
 using Client.Models;
+using static Client.Program;
 
 namespace Client
 {
@@ -8,16 +9,13 @@ namespace Client
         static void Main(string[] args)
         {
  
-            var sampleRestaurants = InitializeSampleRestaurants();
-            var factory = new RestaurantFactory(sampleRestaurants);
+           
+            
 
             Display display = new Display();
-            display.PrintNotification();
+            display.PrintNotification(" ");
+            display.mainMenu();
 
-
-
-            var selectedRestaurant = factory.GetRestaurant();
-            display.menuDisplay(selectedRestaurant);
 
 
         }
@@ -29,7 +27,8 @@ namespace Client
         {
             private Restaurant _selectedRestaurant;
             private Menu _selectedMenu;
-            public int notification = 2;
+            public int notificationSpace = 2;
+
            
             public Display() { }
 
@@ -38,31 +37,71 @@ namespace Client
             {
        
                 int totalLines = Console.WindowHeight;
-                Console.SetCursorPosition(0, notification);
+                Console.SetCursorPosition(0, notificationSpace);
 
 
-                for (int i = notification; i < totalLines; i++)
+                for (int i = notificationSpace; i < totalLines; i++)
                 {
                     Console.Write(new string(' ', Console.WindowWidth));
                 }
 
-                Console.SetCursorPosition(0,notification + 1);
+                Console.SetCursorPosition(0,notificationSpace + 1);
             }
 
-            public void PrintNotification ()
+            public void PrintNotification (string notificationString)
             {
-                Console.WriteLine(" XXXXX");
-                Console.WriteLine("                               ");
+       
+                int currentLine = Console.CursorTop;
+                int currentColumn = Console.CursorLeft;
+
+                Console.SetCursorPosition(0, 0); 
+                Console.WriteLine(notificationString);
+                Console.Write(new string(' ', Console.WindowWidth - notificationString.Length));
+                Console.SetCursorPosition(currentColumn, currentLine);
+                if (currentLine == 0)
+                {
+                    Console.SetCursorPosition(currentColumn, currentLine + 2);
+                }
             }
             public void mainMenu()
             {
                 bool isRunning = true;
 
+        
                 Console.WriteLine("1. Translation Service");
                 Console.WriteLine("2. Food Delivery");
+                Console.WriteLine("Q. Exit");
 
+
+                var input = char.ToUpper(Console.ReadKey().KeyChar);
                 while (isRunning)
                 {
+
+                    Console.WriteLine();
+
+
+                    switch (input)
+                    {
+                        case '1':
+                            Console.WriteLine("service not available yet");
+                            break;
+                        case '2':
+                      
+                            var sampleRestaurants = InitializeSampleRestaurants();
+                            var factory = new RestaurantFactory(sampleRestaurants);
+                            var selectedRestaurant = factory.GetRestaurant();
+                            ClearConsole();
+                            menuDisplay(selectedRestaurant);
+                            break;
+                        case 'Q':
+                            isRunning = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid input. Please try again.");
+                            Console.ReadKey();
+                            break;
+                    }
+
 
                 }
             }
@@ -75,7 +114,8 @@ namespace Client
                 var selectedItems = new Dictionary<FoodItem, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
-                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
+                    PrintNotification($"Order number {completedOrder.OrderNumber} is completed.");
+                   
                 };
 
                 PrintMenu();
