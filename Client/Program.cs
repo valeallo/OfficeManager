@@ -36,17 +36,17 @@ namespace Client
 
             public void ClearConsole()
             {
-                int currentLine = Console.CursorTop;
+       
                 int totalLines = Console.WindowHeight;
                 Console.SetCursorPosition(0, notification);
 
 
-                for (int i = 2; i < totalLines; i++)
+                for (int i = notification; i < totalLines; i++)
                 {
                     Console.Write(new string(' ', Console.WindowWidth));
                 }
 
-                Console.SetCursorPosition(0, currentLine);
+                Console.SetCursorPosition(0, 3);
             }
 
             public void PrintNotification ()
@@ -56,13 +56,21 @@ namespace Client
             }
             public void mainMenu()
             {
+                bool isRunning = true;
+
                 Console.WriteLine("1. Translation Service");
                 Console.WriteLine("2. Food Delivery");
+
+                while (isRunning)
+                {
+
+                }
             }
             public void menuDisplay(Restaurant selectedRestaurant)
             {
                 _selectedRestaurant = selectedRestaurant;
                 _selectedMenu = selectedRestaurant.getCurrentMenu();
+                bool isRunning = true;
                 Order order = new Order(selectedRestaurant);
                 var selectedItems = new Dictionary<FoodItem, int>();
                 order.OnOrderCompleted += (completedOrder) =>
@@ -75,7 +83,9 @@ namespace Client
 
                 Console.WriteLine("Select a food item number:");
 
-                while (true)
+
+
+                while (isRunning) 
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
 
@@ -97,7 +107,9 @@ namespace Client
                     {
                         order.SendOrder();
                         Console.WriteLine("Order sent.");
+                        isRunning = false;
                         ClearConsole();
+                        mainMenu();
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() == 0)
                     {
