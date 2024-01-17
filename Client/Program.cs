@@ -46,7 +46,7 @@ namespace Client
                     Console.Write(new string(' ', Console.WindowWidth));
                 }
 
-                Console.SetCursorPosition(0, 3);
+                Console.SetCursorPosition(0,notification + 1);
             }
 
             public void PrintNotification ()
