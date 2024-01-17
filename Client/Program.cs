@@ -91,7 +91,7 @@ namespace Client
                             var factory = new RestaurantFactory(sampleRestaurants);
                             var selectedRestaurant = factory.GetRestaurant();
                             ClearConsole();
-                            menuDisplay(selectedRestaurant);
+                            deliveryDisplay(selectedRestaurant);
                             break;
                         case 'Q':
                             isRunning = false;
@@ -105,7 +105,7 @@ namespace Client
 
                 }
             }
-            public void menuDisplay(Restaurant selectedRestaurant)
+            public void deliveryDisplay(Restaurant selectedRestaurant)
             {
                 _selectedRestaurant = selectedRestaurant;
                 _selectedMenu = selectedRestaurant.getCurrentMenu();
@@ -166,7 +166,10 @@ namespace Client
 
             }
 
+            public void translationDisplay()
+            {
 
+            }
             public void PrintMenu()
             {
                 if (_selectedMenu != null)
