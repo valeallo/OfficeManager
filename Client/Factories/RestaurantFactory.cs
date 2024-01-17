@@ -11,9 +11,10 @@ namespace Client.Factories
     {
         private List<Restaurant> _restaurants;
 
-        public RestaurantFactory(List<Restaurant> restaurants)
+        public RestaurantFactory()
         {
-            _restaurants = restaurants;
+            var sampleRestaurants = InitializeSampleRestaurants();
+            _restaurants = sampleRestaurants.ToList();
         }
 
         public Restaurant GetRestaurant()
@@ -40,6 +41,40 @@ namespace Client.Factories
                 .FirstOrDefault();
 
             return restaurant;
+        }
+
+
+
+        public static List<Restaurant> InitializeSampleRestaurants()
+        {
+            var restaurants = new List<Restaurant>();
+
+            // Restaurant 1
+            var restaurant1 = new Restaurant("BreakfastPlace");
+            var breakfastMenu1 = new Menu("breakfast");
+            breakfastMenu1.AddFoodItem(new FoodItem("Pancakes", 10));
+            breakfastMenu1.AddFoodItem(new FoodItem("Omelette", 15));
+            restaurant1.AddMenu(breakfastMenu1);
+            restaurants.Add(restaurant1);
+
+            // Restaurant 2
+            var restaurant2 = new Restaurant("LunchDiner");
+            var lunchMenu2 = new Menu("lunch");
+            lunchMenu2.AddFoodItem(new FoodItem("Pizza", 25));
+            lunchMenu2.AddFoodItem(new FoodItem("Patatine", 20));
+            restaurant2.AddMenu(lunchMenu2); // Add the lunch menu to restaurant2
+            restaurants.Add(restaurant2);    // Add restaurant2 to the list
+
+            // Restaurant 3
+            var restaurant3 = new Restaurant("DinnerGrill");
+            var dinnerMenu3 = new Menu("dinner");
+            dinnerMenu3.AddFoodItem(new FoodItem("Steak", 25));
+            dinnerMenu3.AddFoodItem(new FoodItem("Pasta", 20));
+            restaurant3.AddMenu(dinnerMenu3);
+            restaurants.Add(restaurant3);
+
+            return restaurants;
+
         }
 
 
