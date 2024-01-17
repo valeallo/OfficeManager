@@ -1,4 +1,5 @@
-﻿using Client.Factories;
+﻿using Client.enums;
+using Client.Factories;
 using Client.Models;
 using static Client.Program;
 
@@ -83,9 +84,9 @@ namespace Client
                         case '1':
                             translationDisplay();
                             break;
-                        case '2':                       
-                            var factory = new RestaurantFactory();
-                            var selectedRestaurant = factory.GetRestaurant();
+                        case '2':
+                            ServiceType restaurantService = ServiceType.RestaurantService;
+                            Restaurant selectedRestaurant = (Restaurant)new OfficeManager(restaurantService).CreateService();
                    
                             deliveryDisplay(selectedRestaurant);
                             break;

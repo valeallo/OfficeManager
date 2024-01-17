@@ -73,6 +73,9 @@ namespace Client.Models
             return Menus.FirstOrDefault(m => m.Name.Equals(menuType, StringComparison.OrdinalIgnoreCase));
         }
 
+
+
+      
         public  void ProcessOrders()
         
         {
@@ -86,7 +89,7 @@ namespace Client.Models
           if (order.AreAllItemsCooked() == true)
             {
                 order.MarkAsCompleted();
-                if (_orderQueue.Count >= 1 ) { _orderQueue.Dequeue(); }
+                if (_orderQueue != null && _orderQueue.Count > 0) { _orderQueue?.Dequeue(); }
                 return;
             }
 
