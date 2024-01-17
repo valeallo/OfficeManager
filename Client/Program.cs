@@ -1,5 +1,6 @@
 ﻿using Client.Factories;
 using Client.Models;
+using Client.Models.Food;
 using static Client.Program;
 
 namespace Client

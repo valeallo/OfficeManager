@@ -1,4 +1,6 @@
-﻿namespace Client.Models
+﻿using Client.Models.Food;
+
+namespace Client.Models
 {
     public class CookingSpot
     {
