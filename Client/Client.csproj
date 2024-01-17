@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Models\Translations\" />
     <Folder Include="NewFolder\" />
   </ItemGroup>
 
