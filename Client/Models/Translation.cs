@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    public class Translation
+    public class Translation : IPreparableItem
     {
         public string Name { get; set; }
         public int PreparationTime { get; set; }
@@ -21,7 +22,7 @@ namespace Client.Models
         }
 
 
-        public void MarkAsCooked()
+        public void MarkAsReady()
         {
             IsReady = true;
             OnReady?.Invoke();

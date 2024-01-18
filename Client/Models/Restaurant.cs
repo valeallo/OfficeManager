@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    public class Restaurant
+    public class Restaurant : IProvider
     {
         public string Name { get; set; }
         public List<CookingSpot> CookingSpots { get; set; }
@@ -94,13 +95,13 @@ namespace Client.Models
             }
 
 
-            foreach (var item in order.FoodItems)
+            foreach (var item in order.Basket)
             {
                 foreach (var spot in CookingSpots)
                 {
                     if (!spot.IsOccupied)
                     {
-                        var foodItem = order.FoodItems.FirstOrDefault(item => !item.IsReady);
+                        var foodItem = order.Basket.FirstOrDefault(item => !item.IsReady);
                         if (foodItem != null)
                         {
                             

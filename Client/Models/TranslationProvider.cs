@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace Client.Models
 {
  
-    public class TranslationProvider
+    public class TranslationProvider :IProvider
     {
         public string Name { get; set; }
         private List<Translation> _translations;

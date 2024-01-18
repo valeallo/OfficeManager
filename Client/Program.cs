@@ -140,7 +140,7 @@ namespace Client
                         {
                             selectedItems[foodItem] = 1;
                         }
-                        order.AddFoodItem(foodItem);
+                        order.AddItem(foodItem);
                         Console.WriteLine($"{foodItem.Name} x {selectedItems[foodItem]}");
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
