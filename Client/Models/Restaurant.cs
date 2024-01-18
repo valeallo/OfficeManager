@@ -87,6 +87,7 @@ namespace Client.Models
                 if (order.AreAllItemsCooked())
                 {
                     order.MarkAsCompleted();
+                    order.MarkAllItemsUncooked();
                     _orderQueue.Dequeue();
                 }
                 if (_orderQueue.Count > 0)
