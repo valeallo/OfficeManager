@@ -1,4 +1,5 @@
-﻿using Client.Factories;
+﻿using Client.enums;
+using Client.Factories;
 using Client.Models;
 using static Client.Program;
 
@@ -81,11 +82,13 @@ namespace Client
                     switch (input)
                     {
                         case '1':
-                            translationDisplay();
+                            ServiceType translationService = ServiceType.TranslationService;
+                            TranslationProvider translationProvider = (TranslationProvider)new OfficeManager(translationService).CreateService();
+                            translationDisplay(translationProvider);
                             break;
-                        case '2':                       
-                            var factory = new RestaurantFactory();
-                            var selectedRestaurant = factory.GetRestaurant();
+                        case '2':
+                            ServiceType restaurantService = ServiceType.RestaurantService;
+                            Restaurant selectedRestaurant = (Restaurant)new OfficeManager(restaurantService).CreateService();
                    
                             deliveryDisplay(selectedRestaurant);
                             break;
@@ -137,7 +140,7 @@ namespace Client
                         {
                             selectedItems[foodItem] = 1;
                         }
-                        order.AddFoodItem(foodItem);
+                        order.AddItem(foodItem);
                         Console.WriteLine($"{foodItem.Name} x {selectedItems[foodItem]}");
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
@@ -166,12 +169,13 @@ namespace Client
 
             }
 
-            public void translationDisplay()
+            public void translationDisplay(TranslationProvider provider)
             {
                 ClearConsole();
                 bool isRunning = true;
-                Console.WriteLine("service not available yet");
 
+
+                PrintAllTranslations(provider);
                 var input = char.ToUpper(Console.ReadKey().KeyChar);
                 while (isRunning)
                 {
@@ -203,10 +207,18 @@ namespace Client
                     {
                         Console.WriteLine($"{i + 1}. {_selectedMenu.FoodItems[i].Name} - Preparation time: {_selectedMenu.FoodItems[i].PreparationTime} minutes");
                     }
-
-                    // Let the user choose a food item
                
 
+                }
+            }
+
+
+            public void PrintAllTranslations(TranslationProvider provider)
+            {
+                List<Translation> list = provider.getTranslations();
+                foreach (var translation in list)
+                {
+                    Console.WriteLine($"{translation.Name} - {translation.PreparationTime}");
                 }
             }
 

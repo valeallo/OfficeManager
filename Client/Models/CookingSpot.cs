@@ -23,7 +23,7 @@
             Task.Delay(shorterDelay).ContinueWith(_ =>
             {
                 CurrentOrder = null;
-                order.MarkAsCooked();
+                order.MarkAsReady();
                 OnCookingSpotFreed?.Invoke();
             });
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,30 +12,30 @@ namespace Client.Models
     {
         private static Random _random = new Random();
         public int OrderNumber { get; private set; }
-        public List<FoodItem> FoodItems { get; private set; }
+        public List<IPreparableItem> Basket { get; private set; }
         public bool IsCompleted { get; private set; }
 
-        private Restaurant _restaurant; 
+        private IProvider _provider; 
 
         public event Action<Order> OnOrderCompleted;
 
 
-        public Order(Restaurant restaurant)
+        public Order(IProvider provider)
         {
             OrderNumber = _random.Next(100, 1000); 
-            FoodItems = new List<FoodItem>();
-            _restaurant = restaurant;
+            Basket = new List<IPreparableItem>();
+            _provider = provider;
         }
 
-        public void AddFoodItem(FoodItem foodItem)
+        public void AddItem(IPreparableItem item)
         {
-            FoodItems.Add(foodItem);
+            Basket.Add(item);
         }
 
 
         public void SendOrder ()
         {
-            _restaurant.AddOrder(this);
+            _provider.AddOrder(this);
         }
 
 
@@ -46,7 +47,7 @@ namespace Client.Models
 
         public bool AreAllItemsCooked()
         {
-            return FoodItems.All(item => item.IsCooked);
+            return Basket.All(item => item.IsReady);
         }
 
     }

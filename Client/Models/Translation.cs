@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    public class FoodItem : IPreparableItem
+    public class Translation : IPreparableItem
     {
         public string Name { get; set; }
-        public int PreparationTime { get; set; } 
-        public event Action OnReady;
+        public int PreparationTime { get; set; }
+        //public event Action OnFinish;
         public bool IsReady { get; set; }
 
-        public FoodItem(string name, int preparationTime)
+        public Translation(string language,  int preparationTime)
         {
-            Name = name;
+            Name = language;
             PreparationTime = preparationTime;
             IsReady = false;
         }
 
 
-        public void MarkAsReady()
-        {
-            IsReady = true;
-            OnReady?.Invoke();
-        }
+        //public void MarkAsReady()
+        //{
+        //    IsReady = true;
+        //    OnFinish?.Invoke();
+        //}
     }
 }

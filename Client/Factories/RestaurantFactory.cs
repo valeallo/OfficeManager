@@ -10,16 +10,18 @@ namespace Client.Factories
     public class RestaurantFactory
     {
         private List<Restaurant> _restaurants;
+        DateTime _currentTime;
 
-        public RestaurantFactory()
+        public RestaurantFactory(DateTime currentTime)
         {
             var sampleRestaurants = InitializeSampleRestaurants();
             _restaurants = sampleRestaurants.ToList();
+            _currentTime = currentTime;
         }
 
         public Restaurant GetRestaurant()
         {
-            int currentHour = DateTime.Now.Hour;
+            int currentHour = _currentTime.Hour;
             string menuType;
 
             if (currentHour >= 6 && currentHour < 12)
