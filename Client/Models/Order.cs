@@ -34,7 +34,7 @@ namespace Client.Models
 
 
         public void SendOrder ()
-        {
+        { 
             _provider.AddOrder(this);
         }
 
@@ -50,13 +50,7 @@ namespace Client.Models
             return Basket.All(item => item.IsReady);
         }
 
-        public void MarkAllItemsUncooked()
-        {
-            foreach (var item in Basket)
-            {
-                item.IsReady = false;
-            }
-        }
+      
 
     }
 
