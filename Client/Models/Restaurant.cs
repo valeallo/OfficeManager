@@ -100,7 +100,7 @@ namespace Client.Models
                 {
                     if (!spot.IsOccupied)
                     {
-                        var foodItem = order.FoodItems.FirstOrDefault(item => !item.IsCooked);
+                        var foodItem = order.FoodItems.FirstOrDefault(item => !item.IsReady);
                         if (foodItem != null)
                         {
                             

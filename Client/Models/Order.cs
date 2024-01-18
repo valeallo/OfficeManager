@@ -46,7 +46,7 @@ namespace Client.Models
 
         public bool AreAllItemsCooked()
         {
-            return FoodItems.All(item => item.IsCooked);
+            return FoodItems.All(item => item.IsReady);
         }
 
     }
