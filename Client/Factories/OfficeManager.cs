@@ -24,8 +24,7 @@ namespace Client.Factories
                     return new RestaurantFactory(currentTime).GetRestaurant();
 
                 case ServiceType.TranslationService:
-                    string language = "italian";
-                    return new TranslationServiceFactory(language).CreateTranslationService();
+                    return new TranslationOffice();
 
                 default:
                     throw new InvalidOperationException("Invalid service type.");

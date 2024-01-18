@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Client.Factories
 {
-    internal class TranslationServiceFactory
+    internal class TranslationPortal
     {
         string _baseLanguage;
-        public TranslationServiceFactory(string baseLanguage) 
+        public TranslationPortal() 
         {
-            _baseLanguage = baseLanguage;
+    
         
         
         }
