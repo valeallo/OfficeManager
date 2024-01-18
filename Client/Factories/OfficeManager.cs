@@ -23,9 +23,9 @@ namespace Client.Factories
                     var currentTime = DateTime.Now;
                     return new RestaurantFactory(currentTime).GetRestaurant();
 
-                //case ServiceType.TranslationService:  
-                //    string language = "italian"; 
-                //    return new TranslationServiceFactory(language);
+                case ServiceType.TranslationService:
+                    string language = "italian";
+                    return new TranslationServiceFactory(language).CreateTranslationService();
 
                 default:
                     throw new InvalidOperationException("Invalid service type.");

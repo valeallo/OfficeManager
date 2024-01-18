@@ -10,21 +10,21 @@ namespace Client.Models
     {
         public string Name { get; set; }
         public int PreparationTime { get; set; }
-        public event Action OnCooked;
-        public bool IsCooked { get; set; }
+        public event Action OnReady;
+        public bool IsReady { get; set; }
 
-        public Translation(string name, int preparationTime)
+        public Translation(string language,  int preparationTime)
         {
-            Name = name;
+            Name = language;
             PreparationTime = preparationTime;
-            IsCooked = false;
+            IsReady = false;
         }
 
 
         public void MarkAsCooked()
         {
-            IsCooked = true;
-            OnCooked?.Invoke();
+            IsReady = true;
+            OnReady?.Invoke();
         }
     }
 }

@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace Client.Models
 {
  
-    public class TranslationProviderIta
+    public class TranslationProvider
     {
         public string Name { get; set; }
         private List<Translation> _translations;
         private List<Order> _allOrders;
         private Queue<Order> _orderQueue;
 
-        public TranslationProviderIta(string name)
+        public TranslationProvider(string name)
         {
             Name = name;
             _translations = new List<Translation>();
