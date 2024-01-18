@@ -47,7 +47,7 @@ namespace Client.Models
         { 
             if (_orderQueue.Count > 0)
             {
-                var order = _orderQueue.Dequeue();
+                var order = _orderQueue.Peek();
                 ProcessOrder(order);
                 return;
             }
@@ -62,10 +62,10 @@ namespace Client.Models
         {
             foreach (var item in order.Basket)
             {
-               var translationItem = order.Basket.FirstOrDefault(item => !item.IsReady);
-                if (translationItem is Translation translation)
+               
+                if (!item.IsReady && item is Translation translation)
                 {
-                    TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
+                    TimeSpan shorterDelay = TimeSpan.FromSeconds(1);
                     Task.Delay(shorterDelay).ContinueWith(_ =>
                     {
                         translation.MarkAsReady();
@@ -76,7 +76,7 @@ namespace Client.Models
                             return;
                         }
                     });
-                    break;
+                   
                 }
                   
                 
