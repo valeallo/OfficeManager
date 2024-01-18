@@ -22,12 +22,6 @@ namespace Client.Models
             _allOrders = new List<Order>();
             _orderQueue = new Queue<Order>();
 
-
-
-            //foreach (var spot in CookingSpots)
-            //{
-            //    spot.OnCookingSpotFreed += ProcessOrders;
-            //}
         }
 
         public void AddTranslation(Translation translation)
