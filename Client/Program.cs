@@ -131,6 +131,7 @@ namespace Client
                     if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= selectedMenu.FoodItems.Count)
                     {
                         var foodItem = selectedMenu.FoodItems[foodItemIndex - 1];
+                        var newItem = new FoodItem(foodItem.Name, foodItem.PreparationTime);
                         if (selectedItems.ContainsKey(foodItem))
                         {
                             selectedItems[foodItem]++;
@@ -139,7 +140,7 @@ namespace Client
                         {
                             selectedItems[foodItem] = 1;
                         }
-                        order.AddItem(foodItem);
+                        order.AddItem(newItem);
                         Console.WriteLine($"{foodItem.Name} x {selectedItems[foodItem]}");
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
@@ -196,6 +197,7 @@ namespace Client
                     if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= translations.Count)
                     {
                         var item = translations[foodItemIndex - 1];
+                        var newItem = new FoodItem(item.Name, item.PreparationTime);
                         if (selectedItems.ContainsKey(item))
                         {
                             selectedItems[item]++;
@@ -204,8 +206,8 @@ namespace Client
                         {
                             selectedItems[item] = 1;
                         }
-                        order.AddItem(item);
-                        Console.WriteLine($"{item.Name} x {selectedItems[item]}");
+                        order.AddItem(newItem);
+                        Console.WriteLine($"{item.Name}");
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
                     {
