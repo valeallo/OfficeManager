@@ -18,7 +18,7 @@
             //    OnCookingSpotFreed?.Invoke(); 
             //});
 
-            TimeSpan shorterDelay = TimeSpan.FromSeconds(10);
+            TimeSpan shorterDelay = TimeSpan.FromSeconds(1);
 
             Task.Delay(shorterDelay).ContinueWith(_ =>
             {
