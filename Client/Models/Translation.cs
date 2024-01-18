@@ -11,7 +11,7 @@ namespace Client.Models
     {
         public string Name { get; set; }
         public int PreparationTime { get; set; }
-        public event Action OnFinish;
+        //public event Action OnFinish;
         public bool IsReady { get; set; }
 
         public Translation(string language,  int preparationTime)
@@ -22,10 +22,10 @@ namespace Client.Models
         }
 
 
-        public void MarkAsReady()
-        {
-            IsReady = true;
-            OnFinish?.Invoke();
-        }
+        //public void MarkAsReady()
+        //{
+        //    IsReady = true;
+        //    OnFinish?.Invoke();
+        //}
     }
 }
