@@ -1,5 +1,5 @@
 ﻿using Client.enums;
-using Client.Factories;
+using Client.Offices;
 using Client.Models;
 using static Client.Program;
 
@@ -23,8 +23,8 @@ namespace Client
 
         public class Display
         {
-            private Restaurant _selectedRestaurant;
-            private Menu _selectedMenu;
+     
+
             public int notificationSpace = 2;
 
            
@@ -83,14 +83,14 @@ namespace Client
                     {
                         case '1':
                             ServiceType translationService = ServiceType.TranslationService;
-                            TranslationProvider translationProvider = (TranslationProvider)new OfficeManager(translationService).CreateService();
-                            translationDisplay(translationProvider);
+                            TranslationOffice translationOffice = (TranslationOffice)new OfficeManager(translationService).CreateService();
+                            translationDisplay(translationOffice);
                             break;
                         case '2':
                             ServiceType restaurantService = ServiceType.RestaurantService;
-                            Restaurant selectedRestaurant = (Restaurant)new OfficeManager(restaurantService).CreateService();
+                            DeliveryOffice deliveryOffice = (DeliveryOffice)new OfficeManager(restaurantService).CreateService();
                    
-                            deliveryDisplay(selectedRestaurant);
+                            deliveryDisplay(deliveryOffice);
                             break;
                         case 'Q':
                             isRunning = false;
@@ -104,21 +104,20 @@ namespace Client
 
                 }
             }
-            public void deliveryDisplay(Restaurant selectedRestaurant)
+            public void deliveryDisplay(DeliveryOffice office)
             {
                 ClearConsole();
-                _selectedRestaurant = selectedRestaurant;
-                _selectedMenu = selectedRestaurant.getCurrentMenu();
+                Restaurant selectedRestaurant = office.GetServices();
+                Menu selectedMenu = selectedRestaurant.getCurrentMenu();
                 bool isRunning = true;
                 Order order = new Order(selectedRestaurant);
                 var selectedItems = new Dictionary<FoodItem, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
-                    PrintNotification($"Order number {completedOrder.OrderNumber} is completed.");
-                   
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
                 };
 
-                PrintMenu();
+                PrintMenu(selectedRestaurant, selectedMenu);
                 PrintOrder(order);
 
                 Console.WriteLine("Select a food item number:");
@@ -129,9 +128,9 @@ namespace Client
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
 
-                    if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= _selectedMenu.FoodItems.Count)
+                    if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= selectedMenu.FoodItems.Count)
                     {
-                        var foodItem = _selectedMenu.FoodItems[foodItemIndex - 1];
+                        var foodItem = selectedMenu.FoodItems[foodItemIndex - 1];
                         if (selectedItems.ContainsKey(foodItem))
                         {
                             selectedItems[foodItem]++;
@@ -169,8 +168,9 @@ namespace Client
 
             }
 
-            public void translationDisplay(TranslationProvider provider)
+            public void translationDisplay(TranslationOffice office)
             {
+                TranslationProvider provider = office.GetServices();
                 ClearConsole();
                 bool isRunning = true;
                 Order order = new Order(provider);
@@ -178,7 +178,7 @@ namespace Client
                 var selectedItems = new Dictionary<Translation, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
-                    PrintNotification($"Order number {completedOrder.OrderNumber} is completed.");
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
 
                 };
 
@@ -229,14 +229,14 @@ namespace Client
                 }
 
             }
-            public void PrintMenu()
+            public void PrintMenu( Restaurant selectedRestaurant, Menu selectedMenu)
             {
-                if (_selectedMenu != null)
+                if (selectedMenu != null)
                 {
-                    Console.WriteLine($"Menu for {_selectedRestaurant.Name}:");
-                    for (int i = 0; i < _selectedMenu.FoodItems.Count; i++)
+                    Console.WriteLine($"Menu for {selectedRestaurant.Name}:");
+                    for (int i = 0; i < selectedMenu.FoodItems.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. {_selectedMenu.FoodItems[i].Name} - Preparation time: {_selectedMenu.FoodItems[i].PreparationTime} minutes");
+                        Console.WriteLine($"{i + 1}. {selectedMenu.FoodItems[i].Name} - Preparation time: {selectedMenu.FoodItems[i].PreparationTime} minutes");
                     }
                
 
@@ -250,7 +250,7 @@ namespace Client
                 for (int i = 0; i < list.Count; i++)
                 {
                     Translation translation = list[i]; 
-                    Console.WriteLine($"{i + 1}- {translation.Name} - {translation.PreparationTime}");
+                    Console.WriteLine($"{i + 1}. {translation.Name} - {translation.PreparationTime}");
                 }
             }
 

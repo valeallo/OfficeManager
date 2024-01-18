@@ -1,11 +1,12 @@
 ﻿using Client.enums;
+using Client.Portals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Factories
+namespace Client.Offices
 {
     internal class OfficeManager
     {
@@ -20,12 +21,11 @@ namespace Client.Factories
             switch (_serviceType)
             {
                 case ServiceType.RestaurantService:
-                    var currentTime = DateTime.Now;
-                    return new RestaurantFactory(currentTime).GetRestaurant();
+                  
+                    return new DeliveryOffice();
 
                 case ServiceType.TranslationService:
-                    string language = "italian";
-                    return new TranslationServiceFactory(language).CreateTranslationService();
+                    return new TranslationOffice();
 
                 default:
                     throw new InvalidOperationException("Invalid service type.");

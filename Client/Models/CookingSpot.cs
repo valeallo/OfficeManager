@@ -11,6 +11,10 @@
         {
             CurrentOrder = order;
             OrderStartTime = DateTime.Now;
+            Random random = new Random();
+            int randomDelayInSeconds = random.Next(0, 21);
+            TimeSpan randomDelay = TimeSpan.FromSeconds(randomDelayInSeconds);
+           
             //Task.Delay(TimeSpan.FromMinutes(order.PreparationTime)).ContinueWith(_ =>
             //{
             //    CurrentOrder = null; 
@@ -20,7 +24,7 @@
 
             TimeSpan shorterDelay = TimeSpan.FromSeconds(1);
 
-            Task.Delay(shorterDelay).ContinueWith(_ =>
+            Task.Delay(shorterDelay + randomDelay).ContinueWith(_ =>
             {
                 CurrentOrder = null;
                 order.MarkAsReady();
