@@ -9,7 +9,7 @@ namespace Client.Factories
 {
     public class RestaurantFactory
     {
-        private List<IProvider> _restaurants;
+        private List<Restaurant> _restaurants;
         DateTime _currentTime;
 
         public RestaurantFactory(DateTime currentTime)
@@ -19,7 +19,7 @@ namespace Client.Factories
             _currentTime = currentTime;
         }
 
-        public IProvider GetRestaurant()
+        public Restaurant GetRestaurant()
         {
             int currentHour = _currentTime.Hour;
             string menuType;
@@ -47,12 +47,12 @@ namespace Client.Factories
 
 
 
-        public static List<IProvider> InitializeSampleRestaurants()
+        public static List<Restaurant> InitializeSampleRestaurants()
         {
-            var restaurants = new List<IProvider>();
+            var restaurants = new List<Restaurant>();
 
             // Restaurant 1
-            var restaurant1 = new IProvider("BreakfastPlace");
+            var restaurant1 = new Restaurant("BreakfastPlace");
             var breakfastMenu1 = new Menu("breakfast");
             breakfastMenu1.AddFoodItem(new FoodItem("Pancakes", 10));
             breakfastMenu1.AddFoodItem(new FoodItem("Omelette", 15));
@@ -60,7 +60,7 @@ namespace Client.Factories
             restaurants.Add(restaurant1);
 
             // Restaurant 2
-            var restaurant2 = new IProvider("LunchDiner");
+            var restaurant2 = new Restaurant("LunchDiner");
             var lunchMenu2 = new Menu("lunch");
             lunchMenu2.AddFoodItem(new FoodItem("Pizza", 25));
             lunchMenu2.AddFoodItem(new FoodItem("Patatine", 20));
@@ -68,7 +68,7 @@ namespace Client.Factories
             restaurants.Add(restaurant2);    // Add restaurant2 to the list
 
             // Restaurant 3
-            var restaurant3 = new IProvider("DinnerGrill");
+            var restaurant3 = new Restaurant("DinnerGrill");
             var dinnerMenu3 = new Menu("dinner");
             dinnerMenu3.AddFoodItem(new FoodItem("Steak", 25));
             dinnerMenu3.AddFoodItem(new FoodItem("Pasta", 20));

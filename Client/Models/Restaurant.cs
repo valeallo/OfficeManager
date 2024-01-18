@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    public class IProvider : Interface.IProvider
+    public class Restaurant : IProvider
     {
         public string Name { get; set; }
         public List<CookingSpot> CookingSpots { get; set; }
@@ -16,7 +16,7 @@ namespace Client.Models
         private List<Order> _allOrders;
         private Queue<Order> _orderQueue;
 
-        public IProvider(string name)
+        public Restaurant(string name)
         {
             Name = name;
             CookingSpots = new List<CookingSpot>

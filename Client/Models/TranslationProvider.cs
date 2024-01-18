@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Client.Models
 {
  
-    public class TranslationProvider : Interface.IProvider
+    public class TranslationProvider :IProvider
     {
         public string Name { get; set; }
         private List<Translation> _translations;

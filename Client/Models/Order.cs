@@ -15,12 +15,12 @@ namespace Client.Models
         public List<IPreparableItem> Basket { get; private set; }
         public bool IsCompleted { get; private set; }
 
-        private Interface.IProvider _provider; 
+        private IProvider _provider; 
 
         public event Action<Order> OnOrderCompleted;
 
 
-        public Order(Interface.IProvider provider)
+        public Order(IProvider provider)
         {
             OrderNumber = _random.Next(100, 1000); 
             Basket = new List<IPreparableItem>();
