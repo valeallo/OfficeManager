@@ -89,8 +89,9 @@ namespace Client.Models
 
           if (order.AreAllItemsCooked() == true)
             {
-                order.MarkAsCompleted();
-                if (_orderQueue.Count > 0) { _orderQueue?.Dequeue(); }
+                if (_orderQueue.Count > 0) {
+                    order.MarkAsCompleted();
+                    _orderQueue?.Dequeue(); }
                 return;
             }
 
@@ -102,10 +103,9 @@ namespace Client.Models
                     if (!spot.IsOccupied)
                     {
                         var foodItem = order.Basket.FirstOrDefault(item => !item.IsReady);
-                        if (foodItem != null)
+                        if (foodItem is FoodItem food)
                         {
-                            
-                            spot.CookFoodItem(foodItem);
+                            spot.CookFoodItem(food);
                             break;
                         }
                     }

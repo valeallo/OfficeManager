@@ -10,8 +10,8 @@ namespace Client.Interface
     {
         string Name { get; set; }
         int PreparationTime { get; set; }
-        bool IsReady { get; set; }
-        event Action OnReady;
+        public bool IsReady { get; set; }
+
 
         void MarkAsReady();
     }
