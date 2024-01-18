@@ -5,22 +5,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Factories
+namespace Client.Portals
 {
     internal class TranslationPortal
     {
-        string _baseLanguage;
-        public TranslationPortal() 
+        private static TranslationPortal _instance;
+        TranslationProvider _provider;
+        private TranslationPortal()
         {
-    
-        
-        
+           _provider = InitializeSample();
         }
 
-
-        public TranslationProvider CreateTranslationService()
+        public static TranslationPortal Instance
         {
-            
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new TranslationPortal();
+                }
+                return _instance;
+            }
+        }
+
+        public TranslationProvider GetService()
+        {
+            return _provider;
+        }
+        public TranslationProvider InitializeSample()
+        {
+
 
             TranslationProvider provider = new TranslationProvider("Traduzioni dall'italiano");
             Translation tedesco = new Translation("Tedesco", 30);
@@ -30,7 +44,7 @@ namespace Client.Factories
             provider.AddTranslation(tedesco);
             provider.AddTranslation(francese);
             provider.AddTranslation(arabo);
-          
+
 
             return provider;
         }

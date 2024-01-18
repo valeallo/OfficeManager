@@ -5,23 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using Client.Models;
 
-namespace Client.Factories
+namespace Client.Portals
 {
-    public class RestaurantFactory
+    public class RestaurantPortal
     {
         private List<Restaurant> _restaurants;
-        DateTime _currentTime;
+        private static RestaurantPortal _instance;
 
-        public RestaurantFactory(DateTime currentTime)
+        private RestaurantPortal()
         {
-            var sampleRestaurants = InitializeSampleRestaurants();
+            var sampleRestaurants = InitializeSample();
             _restaurants = sampleRestaurants.ToList();
-            _currentTime = currentTime;
+            
         }
 
-        public Restaurant GetRestaurant()
+        public static RestaurantPortal Instance
         {
-            int currentHour = _currentTime.Hour;
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new RestaurantPortal();
+                }
+                return _instance;
+            }
+        }
+        public Restaurant GetService()
+        {
+            int currentHour = DateTime.Now.Hour;
             string menuType;
 
             if (currentHour >= 6 && currentHour < 12)
@@ -44,10 +55,7 @@ namespace Client.Factories
 
             return restaurant;
         }
-
-
-
-        public static List<Restaurant> InitializeSampleRestaurants()
+        public static List<Restaurant> InitializeSample()
         {
             var restaurants = new List<Restaurant>();
 
