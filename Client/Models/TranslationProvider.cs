@@ -65,7 +65,7 @@ namespace Client.Models
                var translationItem = order.Basket.FirstOrDefault(item => !item.IsReady);
                 if (translationItem is Translation translation)
                 {
-                    TimeSpan shorterDelay = TimeSpan.FromSeconds(10);
+                    TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
                     Task.Delay(shorterDelay).ContinueWith(_ =>
                     {
                         translation.MarkAsReady();
