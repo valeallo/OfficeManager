@@ -1,6 +1,7 @@
 ﻿using Client.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace Client.Models
 
             foreach (var spot in CookingSpots)
             {
-                spot.OnCookingSpotFreed += ProcessOrders; 
+                spot.OnCookingSpotFreed += CheckQueueAndProcess; 
             }
         }
 
@@ -51,7 +52,7 @@ namespace Client.Models
         {
             _allOrders.Add(order);
             _orderQueue.Enqueue(order);
-            ProcessOrders();
+            ProcessOrder(order);
         }
 
         public Menu getCurrentMenu ()
@@ -75,27 +76,27 @@ namespace Client.Models
         }
 
 
+        public void CheckQueueAndProcess()
+        {
+            if (_orderQueue.Count > 0)
+            {
+                var order = _orderQueue.Peek(); 
+                if (order.AreAllItemsCooked())
+                {
+                    order.MarkAsCompleted();
+                    _orderQueue.Dequeue();
+                }
+                if (_orderQueue.Count > 0)
+                {
+                    ProcessOrder(_orderQueue.Peek());
+                }
+            }
+        }
 
-      
-        public  void ProcessOrders()
+
+        public void ProcessOrder(Order order)
         
         {
-
-          if (_orderQueue.Count == 0)
-            {
-                return;
-            }
-          var order = _orderQueue.Peek();
-
-          if (order.AreAllItemsCooked() == true)
-            {
-                if (_orderQueue.Count > 0) {
-                    order.MarkAsCompleted();
-                    _orderQueue?.Dequeue(); }
-                return;
-            }
-
-
             foreach (var item in order.Basket)
             {
                 foreach (var spot in CookingSpots)

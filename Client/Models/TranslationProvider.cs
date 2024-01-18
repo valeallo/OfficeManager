@@ -39,19 +39,51 @@ namespace Client.Models
         {
             _allOrders.Add(order);
             _orderQueue.Enqueue(order);
-            ProcessOrders();
+            ProcessOrder(order);
         }
 
    
+        public void CheckQueueAndProcess () 
+        { 
+            if (_orderQueue.Count > 0)
+            {
+                var order = _orderQueue.Dequeue();
+                ProcessOrder(order);
+                return;
+            }
+            return;
+        
+        }
 
 
 
-
-        public void ProcessOrders()
+        public void ProcessOrder(Order order)
 
         {
+            foreach (var item in order.Basket)
+            {
+               var translationItem = order.Basket.FirstOrDefault(item => !item.IsReady);
+                if (translationItem is Translation translation)
+                {
+                    TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
+                    Task.Delay(shorterDelay).ContinueWith(_ =>
+                    {
+                        translation.MarkAsReady();
+                        if (order.AreAllItemsCooked())
+                        {
+                            order.MarkAsCompleted();
+                            CheckQueueAndProcess();
+                            return;
+                        }
+                    });
+                    break;
+                }
+                  
+                
+            }
 
-          
+           
+
         }
     }
 }

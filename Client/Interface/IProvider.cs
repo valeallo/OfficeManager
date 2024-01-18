@@ -10,6 +10,6 @@ namespace Client.Interface
     public interface IProvider
     {
         public void AddOrder(Order order);
-        public void ProcessOrders();
+        public void ProcessOrder(Order order);
     }
 }

@@ -173,30 +173,61 @@ namespace Client
             {
                 ClearConsole();
                 bool isRunning = true;
+                Order order = new Order(provider);
+                List<Translation> translations = provider.getTranslations();
+                var selectedItems = new Dictionary<Translation, int>();
+                order.OnOrderCompleted += (completedOrder) =>
+                {
+                    PrintNotification($"Order number {completedOrder.OrderNumber} is completed.");
 
+                };
 
                 PrintAllTranslations(provider);
-                var input = char.ToUpper(Console.ReadKey().KeyChar);
+                PrintOrder(order);
+
+                Console.WriteLine("Select a food item number:");
+
+
+
                 while (isRunning)
                 {
-                    switch (input)
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+
+                    if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= translations.Count)
                     {
-                        case '1':
-
-                            break;
-                        case 'B':
-                            mainMenu();
-                            break;
-                        case 'Q':
-                            isRunning = false;
-                            break;
-                        default:
-                            Console.WriteLine("Invalid input. Please try again.");
-                            Console.ReadKey();
-                            break;
+                        var item = translations[foodItemIndex - 1];
+                        if (selectedItems.ContainsKey(item))
+                        {
+                            selectedItems[item]++;
+                        }
+                        else
+                        {
+                            selectedItems[item] = 1;
+                        }
+                        order.AddItem(item);
+                        Console.WriteLine($"{item.Name} x {selectedItems[item]}");
                     }
-
+                    else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
+                    {
+                        order.SendOrder();
+                        Console.WriteLine("Order sent.");
+                        isRunning = false;
+                        mainMenu();
+                    }
+                    else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() == 0)
+                    {
+                        Console.WriteLine("the basket is empty please select an item");
+                    }
+                    else if (char.ToLower(keyInfo.KeyChar) == 'b')
+                    {
+                        mainMenu();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Enter a valid food item number or 's' to place the order.");
+                    }
                 }
+
             }
             public void PrintMenu()
             {
@@ -216,9 +247,10 @@ namespace Client
             public void PrintAllTranslations(TranslationProvider provider)
             {
                 List<Translation> list = provider.getTranslations();
-                foreach (var translation in list)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    Console.WriteLine($"{translation.Name} - {translation.PreparationTime}");
+                    Translation translation = list[i]; 
+                    Console.WriteLine($"{i + 1}- {translation.Name} - {translation.PreparationTime}");
                 }
             }
 
