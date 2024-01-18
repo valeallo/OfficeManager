@@ -11,12 +11,22 @@ namespace Client.Offices
 {
     internal class DeliveryOffice
     {
+        Order _order;
+        Restaurant _restaurant;
 
         public Restaurant GetServices()
         {
             RestaurantPortal portal = RestaurantPortal.Instance;
+            _restaurant = portal.GetService();
             return portal.GetService();
         }
+
+        public void addOrder (Order order)
+        {
+            _order = order;
+        }
+
+
 
     }
 }
