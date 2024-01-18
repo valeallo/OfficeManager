@@ -14,6 +14,7 @@ namespace Client.Models
         private List<Translation> _translations;
         private List<Order> _allOrders;
         private Queue<Order> _orderQueue;
+        private readonly object _queueLock = new object();
 
         public TranslationProvider(string name)
         {
@@ -44,14 +45,17 @@ namespace Client.Models
 
    
         public void CheckQueueAndProcess () 
-        { 
-            if (_orderQueue.Count > 0)
+        {
+            lock (_queueLock)
             {
-                var order = _orderQueue.Peek();
-                ProcessOrder(order);
-                return;
+                if (_orderQueue.Count > 0)
+                {
+                    var order = _orderQueue.Peek();
+                    order.ChangeToCompleted();
+                    ProcessOrder(order);
+                    return;
+                }
             }
-            return;
         
         }
 
@@ -65,13 +69,13 @@ namespace Client.Models
                
                 if (!item.IsReady && item is Translation translation)
                 {
-                    TimeSpan shorterDelay = TimeSpan.FromSeconds(1);
+                    Console.WriteLine("processing");
+                    TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
                     Task.Delay(shorterDelay).ContinueWith(_ =>
                     {
                         translation.MarkAsReady();
                         if (order.AreAllItemsCooked())
                         {
-                            order.MarkAsCompleted();
                             CheckQueueAndProcess();
                             return;
                         }

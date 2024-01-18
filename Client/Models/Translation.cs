@@ -11,7 +11,7 @@ namespace Client.Models
     {
         public string Name { get; set; }
         public int PreparationTime { get; set; }
-        public event Action OnFinish;
+   
         public bool IsReady { get; set; }
         private Guid Guid { get; set; }
 
@@ -27,7 +27,7 @@ namespace Client.Models
         public void MarkAsReady()
         {
             IsReady = true;
-            OnFinish?.Invoke();
+        
         }
     }
 }

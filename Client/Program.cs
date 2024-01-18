@@ -107,9 +107,9 @@ namespace Client
                 Restaurant selectedRestaurant = office.GetServices();
                 Menu selectedMenu = selectedRestaurant.getCurrentMenu();
                 bool isRunning = true;
-                Order order = new Order(selectedRestaurant);
+                Order order = new Order(office);
                 var selectedItems = new Dictionary<FoodItem, int>();
-                order.OnOrderCompleted += (completedOrder) =>
+                office.OnOrderFinished += (completedOrder) =>
                 {
                     Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
                 };
@@ -144,7 +144,7 @@ namespace Client
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
                     {
-                        order.SendOrder();
+                        office.SendOrder();
                         Console.WriteLine("Order sent.");
                         isRunning = false;
                         mainMenu();
@@ -173,12 +173,12 @@ namespace Client
                 TranslationProvider provider = office.GetServices();
                 ClearConsole();
                 bool isRunning = true;
-                Order order = new Order(provider);
+                Order order = new Order(office);
                 List<Translation> translations = provider.getTranslations();
                 var selectedItems = new Dictionary<Translation, int>();
-                order.OnOrderCompleted += (completedOrder) =>
+                office.OnOrderCompleted += (completedOrder) =>
                 {
-                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber}  is completed.");
 
                 };
 
@@ -210,7 +210,7 @@ namespace Client
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
                     {
-                        order.SendOrder();
+                        office.SendOrder();
                         Console.WriteLine("Order sent.");
                         isRunning = false;
                         mainMenu();

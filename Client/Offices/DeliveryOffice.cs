@@ -9,15 +9,18 @@ using System.Threading.Tasks;
 
 namespace Client.Offices
 {
-    internal class DeliveryOffice
+    public class DeliveryOffice : IOffice
     {
         Order _order;
-        Restaurant _restaurant;
+        Restaurant _provider;
+        public bool IsOrderCompleted { get; private set; }
+
+        public event Action<Order> OnOrderFinished;
 
         public Restaurant GetServices()
         {
             RestaurantPortal portal = RestaurantPortal.Instance;
-            _restaurant = portal.GetService();
+            _provider = portal.GetService();
             return portal.GetService();
         }
 
@@ -26,7 +29,15 @@ namespace Client.Offices
             _order = order;
         }
 
+        public void SendOrder()
+        {
+            _provider.AddOrder(_order);
+        }
 
-
+        public void MarkAsCompleted()
+        {
+            IsOrderCompleted = true;
+            OnOrderFinished?.Invoke(_order);
+        }
     }
 }

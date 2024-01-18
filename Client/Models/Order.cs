@@ -1,4 +1,5 @@
 ﻿using Client.Interface;
+using Client.Offices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +14,18 @@ namespace Client.Models
         private static Random _random = new Random();
         public int OrderNumber { get; private set; }
         public List<IPreparableItem> Basket { get; private set; }
-        public bool IsCompleted { get; private set; }
 
-        private IProvider _provider; 
-
-        public event Action<Order> OnOrderCompleted;
+        private IOffice _office; 
 
 
-        public Order(IProvider provider)
+
+        public Order(IOffice office)
         {
             OrderNumber = _random.Next(100, 1000); 
             Basket = new List<IPreparableItem>();
-            _provider = provider;
+            _office = office;
+            _office.addOrder(this);
+            
         }
 
         public void AddItem(IPreparableItem item)
@@ -32,25 +33,15 @@ namespace Client.Models
             Basket.Add(item);
         }
 
-
-        public void SendOrder ()
-        { 
-            _provider.AddOrder(this);
-        }
-
-
-        public void MarkAsCompleted()
-        {
-            IsCompleted = true;
-            OnOrderCompleted?.Invoke(this);
-        }
-
         public bool AreAllItemsCooked()
         {
             return Basket.All(item => item.IsReady);
         }
 
-      
+        public void ChangeToCompleted ()
+        {
+            _office.MarkAsCompleted();
+        }
 
     }
 
