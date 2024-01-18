@@ -24,7 +24,7 @@
 
             TimeSpan shorterDelay = TimeSpan.FromSeconds(1);
 
-            Task.Delay(shorterDelay + randomDelay).ContinueWith(_ =>
+            Task.Delay(shorterDelay).ContinueWith(_ =>
             {
                 CurrentOrder = null;
                 order.MarkAsReady();
@@ -34,22 +34,22 @@
 
         }
 
-        public bool CheckIfOrderIsCompleted()
-        {
-            if (CurrentOrder == null)
-            {
-                OnCookingSpotFreed?.Invoke(); 
-                return true;
-            }
+        //public bool CheckIfOrderIsCompleted()
+        //{
+        //    if (CurrentOrder == null)
+        //    {
+        //        OnCookingSpotFreed?.Invoke(); 
+        //        return true;
+        //    }
 
-            var orderDuration = DateTime.Now - OrderStartTime;
-            if (orderDuration.TotalMinutes >= CurrentOrder.PreparationTime)
-            {
-                CurrentOrder = null;
-                OnCookingSpotFreed?.Invoke(); 
-                return true;
-            }
-            return false;
-        }
+        //    var orderDuration = DateTime.Now - OrderStartTime;
+        //    if (orderDuration.TotalMinutes >= CurrentOrder.PreparationTime)
+        //    {
+        //        CurrentOrder = null;
+        //        OnCookingSpotFreed?.Invoke(); 
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }

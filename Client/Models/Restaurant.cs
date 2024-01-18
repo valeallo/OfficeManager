@@ -15,6 +15,7 @@ namespace Client.Models
         public List<Menu> Menus { get; set; }
         private List<Order> _allOrders;
         private Queue<Order> _orderQueue;
+        private readonly object _queueLock = new object();
 
         public Restaurant(string name)
         {
@@ -78,7 +79,9 @@ namespace Client.Models
 
         public void CheckQueueAndProcess()
         {
-            if (_orderQueue.Count > 0)
+            lock (_queueLock)
+            {
+                if (_orderQueue.Count > 0)
             {
                 var order = _orderQueue.Peek(); 
                 if (order.AreAllItemsCooked())
@@ -91,6 +94,7 @@ namespace Client.Models
                     ProcessOrder(_orderQueue.Peek());
                 }
             }
+           }
         }
 
 
