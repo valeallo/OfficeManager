@@ -114,8 +114,7 @@ namespace Client
                 var selectedItems = new Dictionary<FoodItem, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
-                    PrintNotification($"Order number {completedOrder.OrderNumber} is completed.");
-                   
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
                 };
 
                 PrintMenu();
@@ -178,7 +177,7 @@ namespace Client
                 var selectedItems = new Dictionary<Translation, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
-                    PrintNotification($"Order number {completedOrder.OrderNumber} is completed.");
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
 
                 };
 
