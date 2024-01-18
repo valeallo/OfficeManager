@@ -97,15 +97,22 @@ namespace Client.Models
         public void ProcessOrder(Order order)
         
         {
-            var foodItem = order.Basket.FirstOrDefault(item => !item.IsReady);
-            var cookingSpot = CookingSpots.FirstOrDefault(spot => !spot.IsOccupied);
-          
-            if (foodItem is FoodItem food)
+            foreach (var item in order.Basket)
             {
-                cookingSpot?.CookFoodItem(food);
-                         
+                foreach (var spot in CookingSpots)
+                {
+                    if (!spot.IsOccupied)
+                    {
+                        var foodItem = order.Basket.FirstOrDefault(item => !item.IsReady);
+                        if (foodItem is FoodItem food)
+                        {
+                            spot.CookFoodItem(food);
+                            break;
+                        }
+                    }
+                }
             }
-                
+
         }
     }
 }
