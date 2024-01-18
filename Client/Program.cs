@@ -56,10 +56,7 @@ namespace Client
                 Console.WriteLine(notificationString);
                 Console.Write(new string(' ', Console.WindowWidth - notificationString.Length));
                 Console.SetCursorPosition(currentColumn, currentLine);
-                if (currentLine == 0)
-                {
-                    Console.SetCursorPosition(currentColumn, currentLine + 2);
-                }
+               
             }
             public void mainMenu()
             {
@@ -120,7 +117,9 @@ namespace Client
                 PrintMenu(selectedRestaurant, selectedMenu);
                 PrintOrder(order);
 
-                Console.WriteLine("Select a food item number:");
+                Console.WriteLine("Press 's' to send order press 'b' to go back");
+                Console.WriteLine("Select a food  number:");
+
 
 
 
@@ -185,8 +184,8 @@ namespace Client
 
                 PrintAllTranslations(provider);
                 PrintOrder(order);
-
-                Console.WriteLine("Select a food item number:");
+                Console.WriteLine("Press 's' to send order press 'b' to go back");
+                Console.WriteLine("Select a translation number:");
 
 
 
@@ -194,10 +193,10 @@ namespace Client
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
 
-                    if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int foodItemIndex) && foodItemIndex > 0 && foodItemIndex <= translations.Count)
+                    if (char.IsDigit(keyInfo.KeyChar) && int.TryParse(keyInfo.KeyChar.ToString(), out int ItemIndex) && ItemIndex > 0 && ItemIndex <= translations.Count)
                     {
-                        var item = translations[foodItemIndex - 1];
-                        var newItem = new FoodItem(item.Name, item.PreparationTime);
+                        var item = translations[ItemIndex - 1];
+                        var newItem = new Translation(item.Name, item.PreparationTime);
                         if (selectedItems.ContainsKey(item))
                         {
                             selectedItems[item]++;
@@ -207,7 +206,7 @@ namespace Client
                             selectedItems[item] = 1;
                         }
                         order.AddItem(newItem);
-                        Console.WriteLine($"{item.Name}");
+                        Console.WriteLine($"{item.Name} x {selectedItems[item]}");
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
                     {

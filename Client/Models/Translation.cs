@@ -13,12 +13,14 @@ namespace Client.Models
         public int PreparationTime { get; set; }
         public event Action OnFinish;
         public bool IsReady { get; set; }
+        private Guid Guid { get; set; }
 
         public Translation(string language,  int preparationTime)
         {
             Name = language;
             PreparationTime = preparationTime;
             IsReady = false;
+            Guid = Guid.NewGuid();
         }
 
 
