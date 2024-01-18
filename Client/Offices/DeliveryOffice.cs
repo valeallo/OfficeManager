@@ -1,4 +1,5 @@
 ﻿using Client.Interface;
+using Client.Models;
 using Client.Portals;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Client.Offices
     internal class DeliveryOffice
     {
 
-        public IProvider GetServices()
+        public Restaurant GetServices()
         {
             RestaurantPortal portal = RestaurantPortal.Instance;
             return portal.GetService();

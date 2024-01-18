@@ -12,7 +12,7 @@ namespace Client.Offices
 {
     internal class TranslationOffice 
     {
-        public IProvider GetServices()
+        public TranslationProvider GetServices()
         {
             TranslationPortal portal = TranslationPortal.Instance;
             return portal.GetService();
