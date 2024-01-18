@@ -6,7 +6,25 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    internal class Translation
+    public class Translation
     {
+        public string Name { get; set; }
+        public int PreparationTime { get; set; }
+        public event Action OnCooked;
+        public bool IsCooked { get; set; }
+
+        public Translation(string name, int preparationTime)
+        {
+            Name = name;
+            PreparationTime = preparationTime;
+            IsCooked = false;
+        }
+
+
+        public void MarkAsCooked()
+        {
+            IsCooked = true;
+            OnCooked?.Invoke();
+        }
     }
 }
