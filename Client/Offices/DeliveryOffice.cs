@@ -9,14 +9,19 @@ using System.Threading.Tasks;
 
 namespace Client.Offices
 {
-    internal class DeliveryOffice
+    internal class DeliveryOffice : IOffice
     {
+        Restaurant _provider;
 
         public Restaurant GetServices()
         {
             RestaurantPortal portal = RestaurantPortal.Instance;
-            return portal.GetService();
+            _provider = portal.GetService();
+            return _provider;
         }
-
+        public void SendOrder(Order order)
+        {
+            _provider.AddOrder(order);
+        }
     }
 }
