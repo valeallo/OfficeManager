@@ -1,4 +1,5 @@
-﻿using Client.Interface;
+﻿using Client.enums;
+using Client.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,7 +54,11 @@ namespace Client.Models
         {
             _allOrders.Add(order);
             _orderQueue.Enqueue(order);
-            ProcessOrder(order);
+            Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(_ =>
+            {
+                order.ChangeStatus(OrderStatus.Received);
+            });
+            CheckQueueAndProcess();
         }
 
         public Menu getCurrentMenu ()
@@ -86,7 +91,7 @@ namespace Client.Models
                 var order = _orderQueue.Peek(); 
                 if (order.AreAllItemsReady())
                 {
-                    order.MarkAsCompleted();
+                    order.ChangeStatus(OrderStatus.Completed);
                     _orderQueue.Dequeue();
                 }
                 if (_orderQueue.Count > 0)
@@ -101,6 +106,8 @@ namespace Client.Models
         public void ProcessOrder(Order order)
         
         {
+           
+       
             foreach (var item in order.Basket)
             {
                 foreach (var spot in CookingSpots)

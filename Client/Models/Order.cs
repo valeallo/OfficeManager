@@ -1,4 +1,5 @@
-﻿using Client.Interface;
+﻿using Client.enums;
+using Client.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,7 @@ namespace Client.Models
         private static Random _random = new Random();
         public int OrderNumber { get; private set; }
         public List<IPreparableItem> Basket { get; private set; }
-        public bool IsCompleted { get; private set; }
-        public bool IsReceived { get; private set; }
-        public bool IsProcessing { get; private set; }
+        public OrderStatus Status { get; set; }
 
         private IOffice _office; 
 
@@ -34,9 +33,10 @@ namespace Client.Models
             Basket.Add(item);
         }
 
-        public void MarkAsCompleted()
+       
+        public void ChangeStatus(OrderStatus status)
         {
-            IsCompleted = true;
+            Status = status;
             OnOrderCompleted?.Invoke(this);
         }
 

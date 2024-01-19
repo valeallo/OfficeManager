@@ -1,9 +1,12 @@
-﻿using Client.Interface;
+﻿using Client.enums;
+using Client.Interface;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Client.Models
 {
@@ -40,12 +43,18 @@ namespace Client.Models
         {
             _allOrders.Add(order);
             _orderQueue.Enqueue(order);
-            ProcessOrder(order);
+            Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(_ =>
+            {
+                order.ChangeStatus(OrderStatus.Received);
+            });
+
+            CheckQueueAndProcess();
         }
 
    
         public void CheckQueueAndProcess () 
-        { 
+        {
+        
             if (_orderQueue.Count > 0)
             {
                 var order = _orderQueue.Peek();
@@ -61,6 +70,7 @@ namespace Client.Models
         public void ProcessOrder(Order order)
 
         {
+   
             for (int i = 0; i < order.Basket.Count; i++)
             {
   
@@ -68,15 +78,15 @@ namespace Client.Models
                 bool isLast = i == order.Basket.Count - 1;
                 if (!item.IsReady && item is Translation translation)
                 {
-                    TimeSpan shorterDelay = TimeSpan.FromSeconds(1);
+                    TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
                     Task.Delay(shorterDelay).ContinueWith(_ =>
                     {
                         translation.MarkAsReady();
                 
                         
-                        if (order.AreAllItemsReady() && isLast)
+                        if (isLast)
                         {
-                            order.MarkAsCompleted();
+                            order.ChangeStatus(OrderStatus.Completed);
                             CheckQueueAndProcess();
                             return;
                         }

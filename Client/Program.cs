@@ -112,7 +112,7 @@ namespace Client
                 var selectedItems = new Dictionary<FoodItem, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
-                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is {completedOrder.Status}.");
                 };
 
                 PrintMenu(office, order);
@@ -179,7 +179,7 @@ namespace Client
                 var selectedItems = new Dictionary<Translation, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
-                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is completed.");
+                    Console.WriteLine($"Order number {completedOrder.OrderNumber} is {completedOrder.Status}.");
 
                 };
 
