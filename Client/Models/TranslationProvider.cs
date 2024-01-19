@@ -69,7 +69,7 @@ namespace Client.Models
                     Task.Delay(shorterDelay).ContinueWith(_ =>
                     {
                         translation.MarkAsReady();
-                        if (order.AreAllItemsCooked())
+                        if (order.AreAllItemsReady())
                         {
                             order.MarkAsCompleted();
                             CheckQueueAndProcess();

@@ -84,7 +84,7 @@ namespace Client.Models
                 if (_orderQueue.Count > 0)
             {
                 var order = _orderQueue.Peek(); 
-                if (order.AreAllItemsCooked())
+                if (order.AreAllItemsReady())
                 {
                     order.MarkAsCompleted();
                     _orderQueue.Dequeue();

@@ -45,7 +45,7 @@ namespace Client.Models
             OnOrderCompleted?.Invoke(this);
         }
 
-        public bool AreAllItemsCooked()
+        public bool AreAllItemsReady()
         {
             return Basket.All(item => item.IsReady);
         }
