@@ -70,6 +70,7 @@ namespace Client.Models
         public void ProcessOrder(Order order)
 
         {
+            
    
             for (int i = 0; i < order.Basket.Count; i++)
             {
@@ -78,8 +79,9 @@ namespace Client.Models
                 bool isLast = i == order.Basket.Count - 1;
                 if (!item.IsReady && item is Translation translation)
                 {
-                    TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
-                    Task.Delay(shorterDelay).ContinueWith(_ =>
+                    TimeSpan prepTime = TimeSpan.FromMinutes(item.PreparationTime);
+                    //TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
+                    Task.Delay(prepTime).ContinueWith(_ =>
                     {
                         translation.MarkAsReady();
                 

@@ -13,18 +13,10 @@
             OrderStartTime = DateTime.Now;
             Random random = new Random();
             int randomDelayInSeconds = random.Next(0, 21);
-            TimeSpan randomDelay = TimeSpan.FromSeconds(randomDelayInSeconds);
-           
-            //Task.Delay(TimeSpan.FromMinutes(order.PreparationTime)).ContinueWith(_ =>
-            //{
-            //    CurrentOrder = null; 
-            //    order.IsCooked = true;
-            //    OnCookingSpotFreed?.Invoke(); 
-            //});
+            TimeSpan prepTime = TimeSpan.FromMinutes(order.PreparationTime);
+            //TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
 
-            TimeSpan shorterDelay = TimeSpan.FromSeconds(5);
-
-            Task.Delay(shorterDelay).ContinueWith(_ =>
+            Task.Delay(prepTime).ContinueWith(_ =>
             {
                 CurrentOrder = null;
                 order.MarkAsReady();
@@ -34,22 +26,6 @@
 
         }
 
-        //public bool CheckIfOrderIsCompleted()
-        //{
-        //    if (CurrentOrder == null)
-        //    {
-        //        OnCookingSpotFreed?.Invoke(); 
-        //        return true;
-        //    }
-
-        //    var orderDuration = DateTime.Now - OrderStartTime;
-        //    if (orderDuration.TotalMinutes >= CurrentOrder.PreparationTime)
-        //    {
-        //        CurrentOrder = null;
-        //        OnCookingSpotFreed?.Invoke(); 
-        //        return true;
-        //    }
-        //    return false;
-        //}
+       
     }
 }

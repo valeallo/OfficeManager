@@ -106,8 +106,7 @@ namespace Client.Models
         public void ProcessOrder(Order order)
         
         {
-           
-       
+
             foreach (var item in order.Basket)
             {
                 foreach (var spot in CookingSpots)
