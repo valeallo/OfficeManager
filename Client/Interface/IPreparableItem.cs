@@ -11,6 +11,7 @@ namespace Client.Interface
         string Name { get; set; }
         int PreparationTime { get; set; }
         public bool IsReady { get; set; }
+        public int Price { get; }
 
     }
 }

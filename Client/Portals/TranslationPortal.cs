@@ -37,9 +37,9 @@ namespace Client.Portals
 
 
             TranslationProvider provider = new TranslationProvider("Traduzioni dall'italiano");
-            Translation tedesco = new Translation("Tedesco", 30);
-            Translation francese = new Translation("Francese", 20);
-            Translation arabo = new Translation("Arabo", 50);
+            Translation tedesco = new Translation("Tedesco", 30, 30);
+            Translation francese = new Translation("Francese", 20, 20);
+            Translation arabo = new Translation("Arabo", 50, 50);
 
             provider.AddTranslation(tedesco);
             provider.AddTranslation(francese);
