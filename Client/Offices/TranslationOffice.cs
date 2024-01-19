@@ -12,10 +12,12 @@ namespace Client.Offices
 {
     internal class TranslationOffice 
     {
+        TranslationProvider _provider;
         public TranslationProvider GetServices()
         {
             TranslationPortal portal = TranslationPortal.Instance;
-            return portal.GetService();
+            _provider = portal.GetService();
+            return _provider;
         }
 
        
