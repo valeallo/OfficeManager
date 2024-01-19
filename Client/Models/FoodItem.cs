@@ -14,13 +14,15 @@ namespace Client.Models
 
         public bool IsReady { get; set; }
         private Guid Guid { get; set; }
+        public int Price { get; private set; }
 
-        public FoodItem(string name, int preparationTime)
+        public FoodItem(string name, int preparationTime, int price)
         {
             Name = name;
             PreparationTime = preparationTime;
             IsReady = false;
             Guid = Guid.NewGuid();
+            Price = price;
 
         }
 
