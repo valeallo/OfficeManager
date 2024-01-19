@@ -1,5 +1,4 @@
 ﻿using Client.Interface;
-using Client.Offices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,6 @@ namespace Client.Models
         private static Random _random = new Random();
         public int OrderNumber { get; private set; }
         public List<IPreparableItem> Basket { get; private set; }
-
         private IOffice _office; 
 
 
