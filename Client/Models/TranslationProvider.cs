@@ -14,6 +14,7 @@ namespace Client.Models
         private List<Translation> _translations;
         private List<Order> _allOrders;
         private Queue<Order> _orderQueue;
+        private readonly object _queueLock = new object();
 
         public TranslationProvider(string name)
         {
@@ -60,21 +61,26 @@ namespace Client.Models
         public void ProcessOrder(Order order)
 
         {
-            foreach (var item in order.Basket)
+            for (int i = 0; i < order.Basket.Count; i++)
             {
-               
+  
+                IPreparableItem item = order.Basket[i];
+                bool isLast = i == order.Basket.Count - 1;
                 if (!item.IsReady && item is Translation translation)
                 {
                     TimeSpan shorterDelay = TimeSpan.FromSeconds(1);
                     Task.Delay(shorterDelay).ContinueWith(_ =>
                     {
                         translation.MarkAsReady();
-                        if (order.AreAllItemsReady())
+                
+                        
+                        if (order.AreAllItemsReady() && isLast)
                         {
                             order.MarkAsCompleted();
                             CheckQueueAndProcess();
                             return;
                         }
+                        
                     });
                    
                 }
