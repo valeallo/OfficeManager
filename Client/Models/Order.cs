@@ -14,30 +14,25 @@ namespace Client.Models
         public int OrderNumber { get; private set; }
         public List<IPreparableItem> Basket { get; private set; }
         public bool IsCompleted { get; private set; }
+        public bool IsReceived { get; private set; }
+        public bool IsProcessing { get; private set; }
 
-        private IProvider _provider; 
+        private IOffice _office; 
 
         public event Action<Order> OnOrderCompleted;
 
 
-        public Order(IProvider provider)
+        public Order(IOffice office)
         {
             OrderNumber = _random.Next(100, 1000); 
             Basket = new List<IPreparableItem>();
-            _provider = provider;
+            _office = office;
         }
 
         public void AddItem(IPreparableItem item)
         {
             Basket.Add(item);
         }
-
-
-        public void SendOrder ()
-        { 
-            _provider.AddOrder(this);
-        }
-
 
         public void MarkAsCompleted()
         {

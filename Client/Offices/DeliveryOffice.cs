@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Client.Offices
 {
-    internal class DeliveryOffice
+    internal class DeliveryOffice : IOffice
     {
         Restaurant _provider;
 
@@ -19,6 +19,9 @@ namespace Client.Offices
             _provider = portal.GetService();
             return _provider;
         }
-
+        public void SendOrder(Order order)
+        {
+            _provider.AddOrder(order);
+        }
     }
 }

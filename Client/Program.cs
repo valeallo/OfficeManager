@@ -108,7 +108,7 @@ namespace Client
                 Restaurant selectedRestaurant = office.GetServices();
                 Menu selectedMenu = selectedRestaurant.getCurrentMenu();
                 bool isRunning = true;
-                Order order = new Order(selectedRestaurant);
+                Order order = new Order(office);
                 var selectedItems = new Dictionary<FoodItem, int>();
                 order.OnOrderCompleted += (completedOrder) =>
                 {
@@ -143,7 +143,7 @@ namespace Client
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
                     {
-                        order.SendOrder();
+                        office.SendOrder(order);
                         Console.WriteLine("Order sent.");
                         isRunning = false;
                         _currentOrder.Clear();
@@ -174,7 +174,7 @@ namespace Client
                 TranslationProvider provider = office.GetServices();
                 ClearConsole();
                 bool isRunning = true;
-                Order order = new Order(provider);
+                Order order = new Order(office);
                 List<Translation> translations = provider.getTranslations();
                 var selectedItems = new Dictionary<Translation, int>();
                 order.OnOrderCompleted += (completedOrder) =>
@@ -212,7 +212,7 @@ namespace Client
                     }
                     else if (char.ToLower(keyInfo.KeyChar) == 's' && selectedItems.Count() > 0)
                     {
-                        order.SendOrder();
+                        office.SendOrder(order);
                         Console.WriteLine("Order sent.");
                         isRunning = false;
                         _currentOrder.Clear();
